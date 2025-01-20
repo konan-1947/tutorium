@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ</title>
+</head>
+<body>
+    <h1>Chào mừng bạn đến trang chủ!</h1>
+    <button id="logoutButton">Đăng xuất</button>
+
+    <script>
+        // Kiểm tra token trước khi hiển thị trang Home
+        if (!localStorage.getItem('token')) {
+            window.location.href = '/index.html'; // Nếu không có token, chuyển về trang login
+        }
+
+        // Đăng xuất khi bấm nút
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('token'); // Xóa token khỏi localStorage
+            window.location.href = '/index.html'; // Quay lại trang đăng nhập
+        });
+    </script>
+</body>
+</html>
