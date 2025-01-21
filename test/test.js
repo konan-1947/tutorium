@@ -1,21 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const sequelize = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
-const path = require('path');
-const app = express();
-app.use(bodyParser.json());
+const nodemailer = require('nodemailer');
 
+// Tạo transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'rinnekonan.1947@gmail.com', // Thay bằng email của cậu
+    pass: 'wncd hibs luks jetw' // Thay bằng mật khẩu email của cậu hoặc app password nếu cậu dùng Gmail
+  }
+});
 
-app.use(express.static(path.join(__dirname, '../public')));
+// Cấu hình email
+const mailOptions = {
+  from: 'rinnekonan.1947@gmail.com',
+  to: 'nhacute7b@gmail.com', // Email người nhận
+  subject: 'Test Email',
+  text: 'Đây là một email thử nghiệm gửi từ Node.js!'
+};
 
-// Kết nối cơ sở dữ liệu
-sequelize.sync({ force: false })
-    .then(() => console.log('Cơ sở dữ liệu đã sẵn sàng!'))
-    .catch((err) => console.error('Không thể kết nối cơ sở dữ liệu:', err));
-
-// Sử dụng routes
-app.use('/api/auth', authRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
+// Gửi email
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.log('Lỗi khi gửi email:', error);
+  } else {
+    console.log('Email đã được gửi thành công: ' + info.response);
+  }
+});
