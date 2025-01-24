@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'rinnekonan.1947@gmail.com', // Thay bằng email của cậu
-    pass: 'wncd hibs luks jetw' // Thay bằng mật khẩu email của cậu hoặc app password nếu cậu dùng Gmail
+    pass: '' // Thay bằng mật khẩu email của cậu hoặc app password nếu cậu dùng Gmail
   }
 });
 
