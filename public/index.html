@@ -6,61 +6,6 @@
     <title>Đăng ký & Đăng nhập</title>
 </head>
 <body>
-    <h1>Đăng ký</h1>
-    <form id="registerForm">
-        <input type="text" id="regUsername" placeholder="Tên đăng nhập" required />
-        <input type="password" id="regPassword" placeholder="Mật khẩu" required />
-        <input type="email" id="regEmail" placeholder="Email" required />
-        <button type="submit">Đăng ký</button>
-    </form>
-
-    <h1>Đăng nhập</h1>
-    <form id="loginForm">
-        <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required />
-        <input type="password" id="loginPassword" placeholder="Mật khẩu" required />
-        <button type="submit">Đăng nhập</button>
-    </form>
-
-    <script>
-        const registerForm = document.getElementById('registerForm');
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('regUsername').value;
-            const password = document.getElementById('regPassword').value;
-            const email = document.getElementById('regEmail').value;
-
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password, email, role_account: 'learner' }),
-            });
-            const data = await res.json();
-            alert(data.message);
-        });
-
-        const loginForm = document.getElementById('loginForm');
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            });
-            const data = await res.json();
-
-            if (res.status === 200) {
-                // Lưu token vào localStorage
-                localStorage.setItem('token', data.token);
-                // Chuyển hướng người dùng tới trang home
-                window.location.href = '/home.html'; // Chuyển sang trang Home sau khi đăng nhập thành công
-            } else {
-                alert(data.message);
-            }
-        });
-
-    </script>
+    <h1>index.html ở đây</h1>
 </body>
 </html>

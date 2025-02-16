@@ -1,3 +1,4 @@
+//User.js
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db'); // Import kết nối Sequelize từ file cấu hình
 
@@ -16,6 +17,10 @@ User.init({
         unique: true
     },
     password: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    displayname: {
         type: DataTypes.STRING(255),
         allowNull: false
     },

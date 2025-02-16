@@ -1,7 +1,8 @@
+//WorkingTime.js
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db'); // Import kết nối Sequelize từ file cấu hình
 
-class WorkingTime extends Model {}
+class WorkingTime extends Model { }
 
 WorkingTime.init({
   workingtimeid: {

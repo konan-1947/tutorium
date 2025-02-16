@@ -1,21 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 const app = express();
-app.use(bodyParser.json());
-
+const authRoutes = require('./routes/auth/authRoutes');
+const logger = require('./middlewares/loggingMiddleWare');
+const cors = require("cors");
 
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(bodyParser.json());
+app.use(cors({
+    origin: "http://localhost:5173", // Cho phép frontend truy cập
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true
+}));
 
-// Kết nối cơ sở dữ liệu
 sequelize.sync({ force: false })
     .then(() => console.log('Cơ sở dữ liệu đã sẵn sàng!'))
     .catch((err) => console.error('Không thể kết nối cơ sở dữ liệu:', err));
 
-// Sử dụng routes
+// Routes
 app.use('/api/auth', authRoutes);
 
-const PORT = process.env.PORT || 3000;
+//Middleware
+app.get('/abc', logger, (req, res) => {
+    res.send('Trang chủ');
+});
+
+const PORT = 3001;
 app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
