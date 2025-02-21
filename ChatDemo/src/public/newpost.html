@@ -1,0 +1,107 @@
+<!-- File: public/newpost.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo bài viết mới</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .post .meta {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .post .content {
+            margin-top: 10px;
+        }
+
+        .comments {
+            margin-top: 20px;
+        }
+
+        .comment {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .comment .meta {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        .add-comment {
+            margin-top: 10px;
+        }
+
+        .add-comment input {
+            width: 80%;
+            padding: 5px;
+        }
+
+        .new-post-btn {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tạo bài viết mới</h1>
+    <form id="newPostForm">
+        <input type="text" name="title" placeholder="Tiêu đề bài viết" required />
+        <textarea name="content" placeholder="Nội dung bài viết" required></textarea>
+        <input type="text" name="authorName" placeholder="Tên tác giả" required />
+        <button type="submit">Thêm bài viết</button>
+    </form>
+    <div class="message" id="message"></div>
+
+    <script>
+        document.getElementById('newPostForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                title: form.title.value,
+                content: form.content.value,
+                authorName: form.authorName.value
+            };
+            try {
+                const response = await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const messageDiv = document.getElementById('message');
+                if (response.ok) {
+                    messageDiv.textContent = 'Đã thêm mới thành công!';
+                } else {
+                    messageDiv.textContent = 'Thêm bài viết không thành công.';
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('message').textContent = 'Thêm bài viết không thành công.';
+            }
+            // Sau 2 giây chuyển hướng về trang danh sách bài viết
+            setTimeout(() => {
+                window.location.href = 'posts.html';
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>
