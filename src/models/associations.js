@@ -13,6 +13,8 @@ const TutorCategory = require('../models/TutorCategory');
 const LearnerCategory = require('../models/LearnerCategory');
 const TutorTeachLearner = require('../models/TutorTeachLearner');
 const Contract = require('../models/Contract');
+const LearnerFollowTutor = require('../models/LearnerFollowTutor');
+const Session = require('../models/Session');
 
 
 
@@ -56,14 +58,13 @@ const defineAssociations = () => {
   //TutorTeachLearner - Contract (1-N)
   TutorTeachLearner.hasMany(Contract, { foreignKey: 'tutorteachlearnerid' });
   Contract.belongsTo(TutorTeachLearner, { foreignKey: 'tutorteachlearnerid' });
+
+  //Tutor - Learner thông qua LearnerFollowTutor (N-N) 
+  Tutor.belongsToMany(Learner, { through: LearnerFollowTutor, foreignKey: 'tutorid', otherKey: 'learnerid' });
+  Learner.belongsToMany(Tutor, { through: LearnerFollowTutor, foreignKey: 'learnerid', otherKey: 'tutorid' });
+
 };
-//sửa lại mối quan hệ n-n
+
 
 module.exports = defineAssociations;
 
-
-// Quan hệ	Loại quan hệ	Vị trí khóa ngoại
-// A.hasOne(B)	One - To - One(1 - 1)	Trong B(target model)
-// A.belongsTo(B)	One - To - One(1 - 1)	Trong A(source model)
-// A.hasMany(B)	One - To - Many(1 - N)	Trong B(target model)
-// A.belongsToMany(B, { through: 'C' })	Many - To - Many(N - N)	Bảng trung gian C
