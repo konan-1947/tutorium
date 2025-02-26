@@ -7,8 +7,9 @@ const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
 const passport = require("passport");
-require("./config/passport"); // Đảm bảo Passport được import
+const searchTutorRoute = require("./routes/searchTutorRoute");
 
+require("./config/passport"); // Đảm bảo Passport được import
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -18,6 +19,9 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json()); // Đọc JSON request 
+
+// Gọi hàm defineAssociations để thiết lập các mối quan hệ giữa các model
+//defineAssociations();
 
 //sync database với sequelize models 
 syncDB();
@@ -29,6 +33,7 @@ app.use(sessionMiddleware);
 
 //Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/tutor", searchTutorRoute);
 
 //passport
 app.use(passport.initialize());
