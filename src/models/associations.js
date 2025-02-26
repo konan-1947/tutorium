@@ -14,14 +14,14 @@ const LearnerCategory = require('../models/LearnerCategory');
 const TutorTeachLearner = require('../models/TutorTeachLearner');
 const Contract = require('../models/Contract');
 const LearnerFollowTutor = require('../models/LearnerFollowTutor');
-const Session = require('../models/Session');
+// const Session = require('../models/Session');
 
 
 
 const defineAssociations = () => {
-  //User - WorkingTime (1-N)
-  User.hasMany(WorkingTime, { foreignKey: 'userid' });
-  WorkingTime.belongsTo(User, { foreignKey: 'userid' });
+  //Tutor - WorkingTime (1-N)
+  Tutor.hasMany(WorkingTime, { foreignKey: 'userid' });
+  WorkingTime.belongsTo(Tutor, { foreignKey: 'userid' });
 
   //User - Role (N-N)
   User.belongsToMany(Role, { through: UserRole, foreignKey: 'userid', otherKey: 'roleid' });

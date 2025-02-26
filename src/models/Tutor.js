@@ -28,8 +28,17 @@ Tutor.init({
     tokenexpiry: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    socialcredit: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    expectedsalary: {
+        type: DataTypes.FLOAT,
+        allowNull: false
     }
-}, {
+},
+ {
     sequelize,
     modelName: 'Tutor',
     tableName: 'Tutors',

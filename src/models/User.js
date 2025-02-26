@@ -36,6 +36,10 @@ User.init({
     dateofbirth: {
         type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    address: {
+        type: DataTypes.TEXT,
+        allowNull: false
     }
 }, {
     sequelize, // Instance của Sequelize
