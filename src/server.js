@@ -6,11 +6,10 @@ const app = express();
 const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
+const passport = require("passport");
 const searchTutorRoute = require("./routes/searchTutorRoute");
 
-
-// Import hàm defineAssociations từ file associations.js
-//const defineAssociations = require('./models/associations');
+require("./config/passport"); // Đảm bảo Passport được import
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -36,6 +35,9 @@ app.use(sessionMiddleware);
 app.use("/api/auth", authRoutes);
 app.use("/api/tutor", searchTutorRoute);
 
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = 3001;
 app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
