@@ -6,6 +6,9 @@ const app = express();
 const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
+const passport = require("passport");
+require("./config/passport"); // Đảm bảo Passport được import
+
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -27,6 +30,9 @@ app.use(sessionMiddleware);
 //Routes
 app.use("/api/auth", authRoutes);
 
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = 3001;
 app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
