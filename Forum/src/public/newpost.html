@@ -1,0 +1,55 @@
+<!-- File: public/newpost.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo bài viết mới</title>
+    <link rel="stylesheet" href="/css/newpost.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="left">
+                <a href="/" class="logo">
+                <img src="/images/image2.png" alt="Icon">
+            </a>
+            </div>
+            <div class="center">
+               <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/posts">Forum</a></li>
+                    <li><a href="/newpost">New Post</a></li>
+                    <li><a href="/">...</a></li>
+                </ul>
+            </nav> 
+            </div>
+            <div class="right">
+                <p>Thanh tìm kiếm</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h1>Tạo bài viết mới</h1>
+            <form id="newPostForm">
+                <input type="text" name="title" placeholder="Tiêu đề bài viết" required />
+                <input type="text" name="content" placeholder="Nội dung bài viết" required />
+                <input type="text" name="authorName" placeholder="Tên tác giả" required />
+                <button type="submit">Thêm bài viết</button>
+            </form>
+            <div class="message" id="message"></div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 By Nhóm 1</p>
+    </footer>
+
+    <script src="/js/newpost.js"></script>
+</body>
+
+</html>
