@@ -1,18 +1,13 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { Strategy: GoogleStrategy } = require("passport-google-oauth20");
 const User = require("../models/User");
-require("dotenv").config();
-
-console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
-console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
-
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3001/api/auth/google/callback",
+      callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -20,10 +15,13 @@ passport.use(
 
         if (!user) {
           user = await User.create({
-            username: profile.displayName.replace(/\s+/g, "").toLowerCase(), // Bỏ khoảng trắng, viết thường
+            username: profile.id,
+            displayname: profile.displayName,
+            password: "", 
             email: profile.emails[0].value,
             imgurl: profile.photos[0].value,
-            password: null, // Không cần mật khẩu khi dùng OAuth
+            dateofbirth: "2000-01-01", 
+            address: "",
           });
         }
 
@@ -40,8 +38,12 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findByPk(id);
-  done(null, user);
+  try {
+    const user = await User.findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 module.exports = passport;

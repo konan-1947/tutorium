@@ -6,10 +6,11 @@ const app = express();
 const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
-const passport = require("passport");
+const googleLoginRoutes = require("./routes/googleLoginRoutes");
 const searchTutorRoute = require("./routes/searchTutorRoute");
+const passport = require("passport");
+require("./config/passport");
 
-require("./config/passport"); // Đảm bảo Passport được import
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -20,8 +21,6 @@ app.use(cors({
 }));
 app.use(express.json()); // Đọc JSON request 
 
-// Gọi hàm defineAssociations để thiết lập các mối quan hệ giữa các model
-//defineAssociations();
 
 //sync database với sequelize models 
 syncDB();
@@ -31,13 +30,14 @@ syncDB();
 app.use(sessionMiddleware);
 
 
-//Routes
+//Login Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/tutor", searchTutorRoute);
 
-//passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/auth", googleLoginRoutes);
+
 
 const PORT = 3001;
 app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));

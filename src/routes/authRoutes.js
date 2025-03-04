@@ -6,18 +6,21 @@ const loginController = require("../controllers/auth/loginController");
 const logoutController = require("../controllers/auth/logoutController");
 const passport = require("passport");
 
+
 router.post("/register", registerController);
 router.post("/login", loginController);
 router.post("/logout", logoutController);
+
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:5173/login" }),
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    req.session.user = { userid: req.user.userid, email: req.user.email, imgurl: req.user.imgurl };
-    res.redirect("http://localhost:5173/dashboard"); // Chuyển hướng đến frontend
+    res.redirect("/find"); // Chuyển hướng sau khi đăng nhập thành công
   }
 );
+
+
 
 module.exports = router;

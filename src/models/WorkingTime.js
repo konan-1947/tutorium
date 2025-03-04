@@ -17,11 +17,12 @@ WorkingTime.init({
   },
   startime: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
   endtime: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
   },
   note: {
     type: DataTypes.TEXT,
