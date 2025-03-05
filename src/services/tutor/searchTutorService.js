@@ -40,17 +40,18 @@ module.exports = async (query) => {
 
         // Truy vấn Tutor với điều kiện
         const tutors = await Tutor.findAll({
+            attributes: { exclude: ['verifytoken', 'verified_at', 'tokenexpiry'] },
             include: [
                 {
                     model: User,
-                    attributes: ["username", "address"], // Lấy cả address
+                    attributes: ["username", "address","displayname"], // Lấy cả address
                     required: true, //Chỉ lấy các bản ghi có liên kết với bảng User
                 },
                 {
                     model: Category,
                     attributes: ["categoryname"],
                     through: { attributes: [] }, // Bỏ bảng trung gian
-                    where: category ? { categoryname: category } : undefined,
+                    where: category ? { categoryname: { [Op.like]: `%${category}%` } } : undefined,
                 },
             ],
             where: whereCondition,
