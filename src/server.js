@@ -6,10 +6,11 @@ const app = express();
 const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
-const searchTutorRoutes = require("./routes/searchTutorRoutes");
+const searchTutorRoute = require("./routes/searchTutorRoute");
 const passport = require("passport");
 const authMiddleware = require('./middlewares/authMiddleware');
 require("./config/passport");
+
 
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -31,7 +32,8 @@ app.use(sessionMiddleware);
 
 
 //Login Routes
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/tutor", searchTutorRoute);
 
 app.use(passport.initialize());
 app.use(passport.session());

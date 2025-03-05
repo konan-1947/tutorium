@@ -40,10 +40,11 @@ module.exports = async (query) => {
 
         // Truy vấn Tutor với điều kiện
         const tutors = await Tutor.findAll({
+            attributes: { exclude: ['verifytoken', 'verified_at', 'tokenexpiry'] },
             include: [
                 {
                     model: User,
-                    attributes: ["displayname", "username", "address"], // Lấy cả address
+                    attributes: ["username", "address"], // Lấy cả address
                     required: true, //Chỉ lấy các bản ghi có liên kết với bảng User
                 },
                 {
