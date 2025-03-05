@@ -1,27 +1,19 @@
-const nodemailer = require('nodemailer');
+import sendMail from '../src/utils/mailUtil';
 
-// Tạo transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'rinnekonan.1947@gmail.com', // Thay bằng email của cậu
-    pass: '' // Thay bằng mật khẩu email của cậu hoặc app password nếu cậu dùng Gmail
-  }
-});
+try {
+  // Xử lý đăng ký người dùng...
+  
+  // Gửi email xác nhận
+  await sendMail(
+    'vudinhdang2004tb@gmail.com',
+    'Chào mừng bạn đến với Tutorium!',
+    'Cảm ơn bạn đã đăng ký tài khoản!',
+    '<h1>Chào mừng bạn!</h1><p>Cảm ơn bạn đã đăng ký.</p>'
+  );
 
-// Cấu hình email
-const mailOptions = {
-  from: 'rinnekonan.1947@gmail.com',
-  to: 'nhacute7b@gmail.com', // Email người nhận
-  subject: 'Test Email',
-  text: 'Đây là một email thử nghiệm gửi từ Node.js!'
-};
+  res.status(201).json({ message: 'Đăng ký thành công, email đã được gửi!' });
+} catch (error) {
+  res.status(500).json({ error: 'Có lỗi xảy ra khi đăng ký' });
+}
 
-// Gửi email
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    console.log('Lỗi khi gửi email:', error);
-  } else {
-    console.log('Email đã được gửi thành công: ' + info.response);
-  }
-});
+
