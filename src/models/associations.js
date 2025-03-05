@@ -14,7 +14,6 @@ const LearnerCategory = require('../models/LearnerCategory');
 const TutorTeachLearner = require('../models/TutorTeachLearner');
 const Contract = require('../models/Contract');
 const LearnerFollowTutor = require('../models/LearnerFollowTutor');
-// const Session = require('../models/Session');
 
 
 
@@ -51,9 +50,15 @@ const defineAssociations = () => {
   Learner.belongsToMany(Category, { through: LearnerCategory, foreignKey: 'userid', otherKey: 'categoryid' });
   Category.belongsToMany(Learner, { through: LearnerCategory, foreignKey: 'categoryid', otherKey: 'userid' });
 
-  //Tutor - Learner thông qua TutorTeachLearner (N-N)
-  Tutor.belongsToMany(Learner, { through: TutorTeachLearner, foreignKey: 'tutorid', otherKey: 'learnerid' });
-  Learner.belongsToMany(Tutor, { through: TutorTeachLearner, foreignKey: 'learnerid', otherKey: 'tutorid' });
+
+  // Tutor - TutorTeachLearner (1-N)
+  Tutor.hasMany(TutorTeachLearner, { foreignKey: 'tutorid' });
+  TutorTeachLearner.belongsTo(Tutor, { foreignKey: 'tutorid' });
+
+  // TutorTeachLearner - Learner (N-1)
+  TutorTeachLearner.belongsTo(Learner, { foreignKey: 'learnerid' });
+  Learner.hasMany(TutorTeachLearner, { foreignKey: 'learnerid' });
+
 
   //TutorTeachLearner - Contract (1-N)
   TutorTeachLearner.hasMany(Contract, { foreignKey: 'tutorteachlearnerid' });

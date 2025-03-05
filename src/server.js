@@ -8,8 +8,12 @@ const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
 const googleLoginRoutes = require("./routes/googleLoginRoutes");
 const searchTutorRoute = require("./routes/searchTutorRoute");
+const adminRoutes = require("./routes/adminRoutes");
+
+
 const passport = require("passport");
 require("./config/passport");
+
 
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -33,6 +37,9 @@ app.use(sessionMiddleware);
 //Login Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/tutor", searchTutorRoute);
+app.use("/api/admin",adminRoutes);
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
