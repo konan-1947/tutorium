@@ -43,14 +43,14 @@ module.exports = async (query) => {
             include: [
                 {
                     model: User,
-                    attributes: ["username", "address"], // Lấy cả address
+                    attributes: ["displayname", "username", "address"], // Lấy cả address
                     required: true, //Chỉ lấy các bản ghi có liên kết với bảng User
                 },
                 {
                     model: Category,
                     attributes: ["categoryname"],
                     through: { attributes: [] }, // Bỏ bảng trung gian
-                    where: category ? { categoryname: category } : undefined,
+                    where: category ? { categoryname: { [Op.like]: `%${category}%` } } : undefined,
                 },
             ],
             where: whereCondition,

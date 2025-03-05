@@ -9,8 +9,7 @@ module.exports = async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "Sai tài khoản hoặc mật khẩu" });
     }
-
-    req.session.user = { userid: user.userid, email: user.email };
+    req.session.user = { userid: user.userid, email: user.email, imgurl:user.imgurl };
     res.json({ message: "Đăng nhập thành công", user: req.session.user });
   } catch (error) {
     res.status(500).json({ error: "Lỗi máy chủ" });

@@ -6,9 +6,9 @@ const app = express();
 const cors = require("cors");
 const sessionMiddleware = require("./config/sessionConfig");
 const authRoutes = require("./routes/authRoutes");
-const googleLoginRoutes = require("./routes/googleLoginRoutes");
-const searchTutorRoute = require("./routes/searchTutorRoute");
+const searchTutorRoutes = require("./routes/searchTutorRoutes");
 const passport = require("passport");
+const authMiddleware = require('./middlewares/authMiddleware');
 require("./config/passport");
 
 
@@ -31,12 +31,13 @@ app.use(sessionMiddleware);
 
 
 //Login Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/tutor", searchTutorRoute);
+app.use("/auth", authRoutes);
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/auth", googleLoginRoutes);
+
+//learner search routes
+app.use("/learners", authMiddleware, searchTutorRoutes);
 
 
 const PORT = 3001;
