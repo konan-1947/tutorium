@@ -1,5 +1,5 @@
 
-const adminService = require('../../services/admin/adminService');
+const adminService = require('../../services/admin/getListAdminService');
 exports.getAdminList = async (req, res) => {
     try {
         const admins = await adminService.getAdminList();

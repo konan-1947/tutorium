@@ -1,36 +1,53 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/admin/adminController');
-const tutorController = require('../controllers/admin/tutorController');
-const learnerController = require('../controllers/admin/learnerController');
-const categoryController = require('../controllers/admin/categoryController');
+
+//
+const getListAdmin = require('../controllers/admin/getListAdminController');
+
+//
+const getLearnerList = require('../controllers/admin/controllers-admin-learner/getLearnerListController');
+const getLearnerDetail = require('../controllers/admin/controllers-admin-learner/getLearnerDetailController');
+const updateLearner = require('../controllers/admin/controllers-admin-learner/updateLearnerController');
+
+
+//
+const getCategoryList = require('../controllers/admin/controllers-admin-category/getCategoryListController');
+const createCategory = require('../controllers/admin/controllers-admin-category/createCategoryController');
+const updateCategory = require('../controllers/admin/controllers-admin-category/updateCategoryController');
+const deleteCategory = require('../controllers/admin/controllers-admin-category/deleteCategoryController');
+
+//
+const getTutorList = require('../controllers/admin/controllers-admin-tutor/getTutorListController');
+const getTutorDetail = require('../controllers/admin/controllers-admin-tutor/getTutorDetailController');
+const updateTutor = require('../controllers/admin/controllers-admin-tutor/updateTutorController');
+
 
 // Phan cua Admin 
-router.get('/adminList', adminController.getAdminList);
+router.get('/getAdminList', getListAdmin.getAdminList);
 
 //Phan cua Tutors 
-router.get('/tutorList', tutorController.getTutors); // api view list tutor 
+router.get('/getTutorList', getTutorList.getTutors); // api view list tutor 
 
-router.get('/tutorDetail/:userid', tutorController.getTutorDetail);
+router.get('/getTutorDetail/:userid', getTutorDetail.getTutorDetail);
 
-router.put('/updateTutor/:userid', tutorController.updateTutor);
+router.put('/updateTutor/:userid', updateTutor.updateTutor);
 
 
 //Phan cua Learner
-router.get('/learnerList', learnerController.getLearner); // api view list learner
+router.get('/getLearnerList', getLearnerList.getLearner); // api view list learner
 
-router.get('/learnerDetail/:userid', learnerController.getLearnerDetail);
+router.get('/getLearnerDetail/:userid', getLearnerDetail.getLearnerDetail);
 
-router.put('/updateLearner//:userid', learnerController.updateLearner);
+router.put('/updateLearner//:userid', updateLearner.updateLearner);
 
 
 //Phan cua Category
-router.get('/categoryList', categoryController.getCategoryList);
+router.get('/getCategoryList', getCategoryList.getCategoryList);
 
-router.post("/createCategory", categoryController.createCategory);
+router.post("/createCategory", createCategory.createCategory);
 
-router.put("/updateCategory/:categoryid", categoryController.updateCategory);
+router.put("/updateCategory/:categoryid", updateCategory.updateCategory);
 
-router.delete("/deleteCategory/:categoryid", categoryController.deleteCategory)
+router.delete("/deleteCategory/:categoryid", deleteCategory.deleteCategory)
 
 module.exports = router;

@@ -5,7 +5,7 @@ const Tutor = require("../../models/Tutor");
 const Category = require("../../models/Category");
 
 const { haversine } = require('../../utils/distance');
-const { getCoordinatesFromAddress } = require('./locationService');
+const { getCoordinatesFromAddress } = require('./getCoordinatesFromAddress');
 
 module.exports = async (query) => {
     const { displayname, category, socialcreditsortasc, expectedsalary, address, userAddress } = query;
@@ -58,51 +58,6 @@ module.exports = async (query) => {
             order: orderCondition,
         });
 
-        // if (!userAddress) {
-        //     return tutors;
-        // }
-
-        // // Lấy tọa độ (vĩ độ, kinh độ) của địa chỉ user = cách gọi hàm getCoordinatesFromAddress
-        // const userCoords = await getCoordinatesFromAddress(userAddress);
-        // if (!userCoords) {
-        //     throw new Error("Không thể lấy tọa độ người dùng.");
-        // }
-
-        // // Lấy tất cả tọa độ của Tutors trước khi tính khoảng cách (giảm số lần gọi API)
-        // const tutorsWithCoords = await Promise.all(
-        //     // duyệt từng Tutor trong danh sách tutors
-        //     tutors.map(async (tutor) => {
-
-        //         if (!tutor.User.address) {
-        //             //console.log(`Tutor ${tutor.User.username} không có địa chỉ.`);
-        //             return null;
-        //         }
-
-        //         const tutorCoords = await getCoordinatesFromAddress(tutor.User.address);
-
-        //         if (!tutorCoords) {
-        //             //console.log(`Không tìm thấy tọa độ của địa chỉ: ${tutor.User.address}`);
-        //             return null;
-        //         }
-
-        //         const distance = haversine(
-        //             userCoords.latitude, userCoords.longitude,
-        //             tutorCoords.latitude, tutorCoords.longitude
-        //         );
-
-        //         //console.log(`Khoảng cách từ ${userAddress} đến ${tutor.User.address}: ${distance} km`);
-
-        //         //Trả về một đối tượng mới bao gồm thông tin của Tutor và khoảng cách (distance).
-        //         return { ...tutor.get({ plain: true }), distance };
-        //     })
-        // );
-
-        // // Lọc Tutor hợp lệ & sắp xếp theo khoảng cách
-        // const sortedTutors = tutorsWithCoords
-        //     .filter((tutor) => tutor !== null && tutor.distance !== null)
-        //     .sort((a, b) => a.distance - b.distance);
-
-        // return sortedTutors;
 
         if (userAddress) {
             // Lấy tọa độ (vĩ độ, kinh độ) của địa chỉ user = cách gọi hàm getCoordinatesFromAddress

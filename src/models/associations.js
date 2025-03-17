@@ -14,7 +14,7 @@ const LearnerCategory = require('../models/LearnerCategory');
 const TutorTeachLearner = require('../models/TutorTeachLearner');
 const Contract = require('../models/Contract');
 const LearnerFollowTutor = require('../models/LearnerFollowTutor');
-
+const Promotion = require('../models/Promotion');
 
 
 const defineAssociations = () => {
@@ -67,6 +67,14 @@ const defineAssociations = () => {
   //Tutor - Learner thông qua LearnerFollowTutor (N-N) 
   Tutor.belongsToMany(Learner, { through: LearnerFollowTutor, foreignKey: 'tutorid', otherKey: 'learnerid' });
   Learner.belongsToMany(Tutor, { through: LearnerFollowTutor, foreignKey: 'learnerid', otherKey: 'tutorid' });
+
+  //Tutor - Promotion (1-N)
+  Tutor.hasMany(Promotion, { foreignKey: 'tutorid' });
+  Promotion.belongsTo(Tutor, { foreignKey: 'tutorid' });
+
+  //Contract - Promotion (N-1)
+  Contract.belongsTo(Promotion, { foreignKey: 'promotionid' });
+  Promotion.hasMany(Contract, { foreignKey: 'promotionid' });
 
 };
 

@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model, TIME } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db'); // Import kết nối Sequelize từ file cấu hình
 
 class Learner extends Model { }
@@ -12,6 +12,10 @@ Learner.init({
     learninggoal: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    verifiedat: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
 }, {
     sequelize,

@@ -1,21 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const syncDB = require('./config/syncDB');
+const cors = require('cors');
 const path = require('path');
+const http = require('http');
+const passport = require('passport');
+const sessionMiddleware = require('./config/sessionConfig');
+const { connectDB } = require('./config/database');
+const syncDB = require('./config/syncDB');
+const { setupWebSocket } = require('./websocket/socket');
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const googleLoginRoutes = require('./routes/googleLoginRoutes');
+const learnerRoutes = require('./routes/learnerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const tutorRoutes = require('./routes/tutorRoutes');
+const messageRoutes = require('./routes/messageRouter');
+const userRoutes = require('./routes/userRouter');
+const notificationRoutes = require('./routes/notificationRouter');
+const utilRoutes = require('./routes/utilRoutes')
+
+// Khởi tạo ứng dụng Express
 const app = express();
-const cors = require("cors");
-const sessionMiddleware = require("./config/sessionConfig");
-const authRoutes = require("./routes/authRoutes");
-const googleLoginRoutes = require("./routes/googleLoginRoutes");
-const searchTutorRoute = require("./routes/searchTutorRoute");
-const adminRoutes = require("./routes/adminRoutes");
+const server = http.createServer(app);
 
+// Kết nối cơ sở dữ liệu
+connectDB(); // Kết nối MongoDB
+syncDB(); // Đồng bộ hóa cơ sở dữ liệu với Sequelize models
 
-const passport = require("passport");
-require("./config/passport");
-
-
-
+// Cấu hình middleware
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 app.use(cors({
@@ -25,26 +38,28 @@ app.use(cors({
 }));
 app.use(express.json()); // Đọc JSON request 
 
-
-//sync database với sequelize models 
-syncDB();
-
-
-//Middleware session
+// Cấu hình session
 app.use(sessionMiddleware);
 
-
-//Login Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/tutor", searchTutorRoute);
-app.use("/api/admin",adminRoutes);
-
-
-
+// Cấu hình Passport
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/auth", googleLoginRoutes);
+require('./config/passport');
 
+// Cấu hình routes
+app.use('/auth', authRoutes);
+app.use('/tutor', tutorRoutes);
+app.use('/learner', learnerRoutes);
+app.use('/admin', adminRoutes);
+app.use('/messages', messageRoutes);
+app.use('/user', userRoutes);
+app.use('/notification', notificationRoutes);
+app.use('/auth', googleLoginRoutes);
+app.use('/util', utilRoutes)
 
+// Cấu hình WebSocket
+setupWebSocket(server);
+
+// Khởi động server
 const PORT = 3001;
-app.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Server đang chạy tại http://localhost:${PORT}`));
