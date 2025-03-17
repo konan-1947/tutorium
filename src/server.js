@@ -11,7 +11,6 @@ const { setupWebSocket } = require('./websocket/socket');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const googleLoginRoutes = require('./routes/googleLoginRoutes');
 const learnerRoutes = require('./routes/learnerRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const tutorRoutes = require('./routes/tutorRoutes');
@@ -54,7 +53,6 @@ app.use('/admin', adminRoutes);
 app.use('/messages', messageRoutes);
 app.use('/user', userRoutes);
 app.use('/notification', notificationRoutes);
-app.use('/auth', googleLoginRoutes);
 app.use('/util', utilRoutes)
 
 // Cấu hình WebSocket
