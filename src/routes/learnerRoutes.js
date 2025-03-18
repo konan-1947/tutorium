@@ -1,6 +1,6 @@
 const express = require("express");
 const searchTutorController = require("../controllers/learner/searchTutorController");
-const getLearnerDetail = require("../controllers/learner/getLearnerDetailController");
+const getLearnerDetail = require("../controllers/learner/getLearnerProfileController");
 const verifyLearner  = require('../controllers/learner/verifyLearnerController');
 
 const router = express.Router();

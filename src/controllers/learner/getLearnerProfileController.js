@@ -1,4 +1,4 @@
-const learnerService = require("../../services/learner/getLearnerDetailService");
+const learnerService = require("../../services/learner/getLearnerProfileService");
 
 exports.getLearnerDetail = async (req, res) => {
     try {

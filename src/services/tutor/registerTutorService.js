@@ -56,7 +56,7 @@ exports.registerTutor = async (tutorData) => {
         );
 
         // 5. Gửi email cho admin để cấp quyền tutor 
-        // Giả sử bạn có một link để admin duyệt tài khoản tutor
+     
         const tutorApprovalLink = `https://yourfrontend.com/approve-tutor/${userId}`;
 
         await sendMail(
