@@ -1,8 +1,8 @@
-const verifyLearnerService = require('../../services/learner/verifyLearnerService');
+const verifyLearnerService = require('../../services/learner/chooseCustomInfoForLearnerService');
 
-exports.verifyLearner = async (req, res) => {
+exports.chooseCustomInfoForLearner = async (req, res) => {
   try {
-    const { userid } = req.params;
+    const  userid  = req.session.userid || 24;
     const { learninggoal, categoryid, dateofbirth, address } = req.body;
 
     const result = await verifyLearnerService.verifyLearner(userid, learninggoal, categoryid, dateofbirth, address);

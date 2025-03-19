@@ -71,12 +71,12 @@ exports.verifyLearner = async (userid, learninggoal, categoryid, dateofbirth, ad
     }
 
      // Lấy thời gian hiện tại ở định dạng ISO
-     const verifiedAt = new Date().toISOString();
+     const verifiedAt = null;
 
     // Update thông tin Learner
     await sequelize.query(
         `UPDATE Learners 
-     SET learninggoal = :learninggoal, verifiedat = NOW() 
+     SET learninggoal = :learninggoal, verifiedat = NULL  
      WHERE userid = :userid`,
         {
             replacements: { userid, learninggoal },
