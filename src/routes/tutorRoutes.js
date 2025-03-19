@@ -10,4 +10,6 @@ const router = express.Router();
 router.get("/getTutorDetail/:userid", getTutorDetail.getTutorDetail);
 router.post("/registerTutor", registerTutor.registerTutor);
 
+
+
 module.exports = router;

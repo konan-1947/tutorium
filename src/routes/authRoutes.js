@@ -4,12 +4,19 @@ const router = express.Router();
 const registerController = require("../controllers/auth/registerController");
 const loginController = require("../controllers/auth/loginController");
 const logoutController = require("../controllers/auth/logoutController");
+
+const forgotPasswordController = require('../controllers/auth/forgotPasswordController');
+const resetPasswordController = require('../controllers/auth/resetPasswordController');
+
 const passport = require("passport");
 require('dotenv').config();
 
 router.post("/register", registerController);
 router.post("/login", loginController);
 router.post("/logout", logoutController);
+
+router.post('/forgotPassword', forgotPasswordController.forgotPassword);
+router.post('/resetPassword', resetPasswordController.resetPassword);
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
