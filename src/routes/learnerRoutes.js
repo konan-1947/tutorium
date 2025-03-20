@@ -8,6 +8,9 @@ const followController = require("../controllers/learner/followTutorController")
 const unFollowController = require("../controllers/learner/unFollowTutorController");
 
 const getTutorDetail = require("../controllers/learner/getTutorDetailController");
+const getTutorWk = require('../controllers/learner/getTutorWorkingTimeController');
+
+const createLearnerBooking = require('../controllers/learner/createLearnerBookingController');
 
 const router = express.Router();
 
@@ -16,13 +19,17 @@ const router = express.Router();
 router.get("/findTutor", searchTutorController);
 router.get("/getLearnerDetail", getLearnerDetail.getLearnerDetail); //Xem profile cá nhân. 
 
-router.post('/verifyLearner', chooseCustomInfoForLearner.chooseCustomInfoForLearner);
+router.post('/chooseCustomInfo', chooseCustomInfoForLearner.chooseCustomInfoForLearner);
 router.get('/changeVerifiedAt',changeVerifiedAt.changeVerifiedAt)
 
-router.get("/getTutorDetail/:userid", getTutorDetail.getTutorDetail);
+router.get("/getTutorDetail/:username", getTutorDetail.getTutorDetail);
 
 router.post("/follow", followController.followTutor);
 router.delete("/unfollow", unFollowController.unfollowTutor);
+
+router.get('/getTutorWorkingTimes/:username', getTutorWk.getTutorWorkingTimes);
+
+router.post('/bookingContract/:username', createLearnerBooking.bookingContract);
 
 
 module.exports = router;

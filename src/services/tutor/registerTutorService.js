@@ -1,6 +1,6 @@
 const sequelize = require('../../config/db'); // Import Sequelize instance
 const { QueryTypes } = require('sequelize');
-const sendMail = require('../../utils/mailUtil'); // Import hàm gửi email
+//const sendMail = require('../../utils/mailUtil'); // Import hàm gửi email
 const { hashPassword } = require("../../utils/hash");
 
 exports.registerTutor = async (tutorData) => {
@@ -57,16 +57,16 @@ exports.registerTutor = async (tutorData) => {
 
         // 5. Gửi email cho admin để cấp quyền tutor 
      
-        const tutorApprovalLink = `https://yourfrontend.com/approve-tutor/${userId}`;
+    //     const tutorApprovalLink = `https://yourfrontend.com/approve-tutor/${userId}`;
 
-        await sendMail(
-            "vutuanhiep9099@gmail.com",
-            "New Tutor Registration Request",
-            `User ${displayname} (${email}) has registered as a tutor. Please review and approve their account.`,
-            `<p>Chào <b>Admin</b>,</p>
-     <p>Có một yêu cầu đăng ký tutor mới từ <b>${displayname}</b> (${email}).</p>
-     <p>Vui lòng nhấn vào <a href="${tutorApprovalLink}">đây</a> để xem xét và phê duyệt tài khoản của họ.</p>`
-        );
+    //     await sendMail(
+    //         "vutuanhiep9099@gmail.com",
+    //         "New Tutor Registration Request",
+    //         `User ${displayname} (${email}) has registered as a tutor. Please review and approve their account.`,
+    //         `<p>Chào <b>Admin</b>,</p>
+    //  <p>Có một yêu cầu đăng ký tutor mới từ <b>${displayname}</b> (${email}).</p>
+    //  <p>Vui lòng nhấn vào <a href="${tutorApprovalLink}">đây</a> để xem xét và phê duyệt tài khoản của họ.</p>`
+    //     );
 
         return { message: "Tutor registered successfully", user, tutor };
     } catch (error) {

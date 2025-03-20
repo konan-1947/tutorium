@@ -7,6 +7,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   host: process.env.DB_HOST || 'localhost',
   dialect: 'mysql',
   logging: console.log,
+  timezone: '+07:00', // Thiết lập timezone cho Việt Nam
 });
 
 // Kiểm tra thử kết nối

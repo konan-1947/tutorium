@@ -38,7 +38,7 @@ router.get('/getLearnerList', getLearnerList.getLearner); // api view list learn
 
 router.get('/getLearnerDetail/:userid', getLearnerDetail.getLearnerDetail);
 
-router.put('/updateLearner//:userid', updateLearner.updateLearner);
+router.put('/updateLearner/:userid', updateLearner.updateLearner);
 
 
 //Phan cua Category

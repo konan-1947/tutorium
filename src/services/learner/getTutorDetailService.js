@@ -1,34 +1,33 @@
-
 const User = require("../../models/User");
 const Tutor = require("../../models/Tutor");
 const Category = require("../../models/Category");
-
 const TutorCategory = require("../../models/TutorCategory");
 
-
-
-exports.getTutorDetail = async (userid) => {
+exports.getTutorDetail = async (username) => {
     try {
         const tutor = await Tutor.findOne({
-            where: { userid },
-            attributes: { exclude: ['verifytoken', 'verified_at', 'tokenexpiry'] }, // Loại bỏ các trường không mong muốn
             include: [
                 {
                     model: User,
-                    attributes: ['displayname', 'email', 'imgurl', 'address', 'dateofbirth'] // Lấy thông tin user
+                    where: { username }, // Tìm User dựa trên username
+                    attributes: ['displayname', 'email', 'imgurl', 'address', 'dateofbirth']
                 },
                 {
                     model: Category,
                     through: { model: TutorCategory },
-                    attributes: ['categoryname'] // Lấy danh sách môn dạy
+                    attributes: ['categoryname']
                 },
-            ]
+            ],
+            attributes: { exclude: ['verifytoken', 'verified_at', 'tokenexpiry'] }
         });
 
-        return tutor; // Trả về trực tiếp dữ liệu
+        if (!tutor) {
+            throw new Error('Tutor not found');
+        }
+
+        return tutor;
     } catch (error) {
         console.error('Error fetching tutor details:', error);
-        throw new Error('Internal server error'); // Ném lỗi để xử lý ở phía gọi hàm
+        throw new Error(error.message || 'Internal server error');
     }
 };
-

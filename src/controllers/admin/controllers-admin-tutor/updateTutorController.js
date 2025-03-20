@@ -13,7 +13,7 @@ exports.updateTutor = async (req, res) => {
             data: updatedTutor,
         });
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             success: false,
             message: error.message,
         });
