@@ -2,7 +2,7 @@ const verifyLearnerService = require('../../services/learner/chooseCustomInfoFor
 
 exports.chooseCustomInfoForLearner = async (req, res) => {
   try {
-    const  userid  = req.session.userid || 24;
+    const  userid  = req.session.user.userid|| 24;
     const { learninggoal, categoryid, dateofbirth, address } = req.body;
 
     const result = await verifyLearnerService.verifyLearner(userid, learninggoal, categoryid, dateofbirth, address);

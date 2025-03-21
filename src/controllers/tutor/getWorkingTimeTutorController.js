@@ -3,7 +3,7 @@ const workingTimeService = require('../../services/tutor/getWorkingTimeTutorServ
 
 exports.createWorkingTime = async (req, res) => {
     try {
-        const userId = req.session.userid || 24;
+        const userId = req.session.user.userid || 24;
         const { newStartTime, newEndTime } = req.body;
 
         if (!userId || !newStartTime || !newEndTime) {

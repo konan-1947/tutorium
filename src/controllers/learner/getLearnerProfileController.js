@@ -2,7 +2,7 @@ const learnerService = require("../../services/learner/getLearnerProfileService"
 
 exports.getLearnerDetail = async (req, res) => {
     try {
-        const { userid } = req.session.userid;
+        const { userid } = req.session.user.userid;
 
         const result = await learnerService.getLearnerDetail(userid);
         res.status(200).json(result);

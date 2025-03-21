@@ -2,7 +2,7 @@ const changeVerifiedAtService = require('../../services/learner/changeVerifiedAt
 
 exports.changeVerifiedAt = async (req, res) => {
   try {
-      const  userid  = req.session.userid || 24;
+      const  userid  = req.session.user.userid || 24;
   
       const result = await changeVerifiedAtService.changeVerifiedAt(userid);
       res.status(200).json({ success: true, message: 'Learner changeVerified time successfully', data: result });

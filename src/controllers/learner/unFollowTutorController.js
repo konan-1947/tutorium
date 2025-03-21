@@ -2,7 +2,7 @@ const unfollowService = require("../../services/learner/unFollowTutorService");
 
 exports.unfollowTutor = async (req, res) => {
     try {
-        const learnerId = req.session.userid || 24; // Lấy learnerId từ session
+        const learnerId = req.session.user.userid || 24; // Lấy learnerId từ session
         const { tutorId } = req.body;
 
         if (!learnerId) {

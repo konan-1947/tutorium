@@ -50,6 +50,7 @@ passport.use(
         }
 
         return done(null, user);
+        
       } catch (err) {
         console.error("Error in Google Strategy:", err.message, err.stack); // Log chi tiết lỗi
         return done(err, null);
