@@ -17,7 +17,7 @@ exports.bookingContract = async (req, res) => {
             endtime,
             target, // Thêm target
             payment, // Thêm payment
-            learnerId: req.session.userid || 25, 
+            learnerId: req.session.user || 25, 
         });
 
         res.status(201).json(result);

@@ -1,4 +1,4 @@
-const workingTimeService = require('../../services/tutor/getWorkingTimeTutorService');
+const workingTimeService = require('../../services/tutor/createWorkingTimeTutorService');
 
 
 exports.createWorkingTime = async (req, res) => {

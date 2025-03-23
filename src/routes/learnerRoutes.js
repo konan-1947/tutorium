@@ -12,6 +12,9 @@ const getTutorWk = require('../controllers/learner/getTutorWorkingTimeController
 
 const createLearnerBooking = require('../controllers/learner/createLearnerBookingController');
 
+const getListTutorFollow = require('../controllers/learner/getListTutorFollowController');
+
+
 const router = express.Router();
 
 
@@ -31,5 +34,6 @@ router.get('/getTutorWorkingTimes/:username', getTutorWk.getTutorWorkingTimes);
 
 router.post('/bookingContract/:username', createLearnerBooking.bookingContract);
 
+router.get('/getListTutorFollow', getListTutorFollow.getFollowedTutors);
 
 module.exports = router;

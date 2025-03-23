@@ -1,7 +1,18 @@
 const sequelize = require("../../config/db");
-const { isBookingConflict } = require("../../utils/checkWorkingTimeUtils");
+const { isBookingConflict } = require("../../utils/isBookingConflict");
 
 exports.bookTutor = async ({ username, starttime, endtime, target, payment, learnerId }) => {
+
+    if (new Date(starttime) > new Date(endtime)) {
+        throw new Error("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+    }
+
+    // Kiểm tra thời lượng đặt lịch (phải >= 1 tiếng và <= 3 tiếng)
+    const duration = (new Date(endtime) - new Date(starttime)) / (1000 * 60 * 60); // chuyển mili giây thành giờ
+    if (duration < 1 || duration > 3) {  // Sửa điều kiện ở đây
+        throw new Error("Thời gian đặt lịch phải từ 1 tiếng đến 3 tiếng để đảm bảo chất lượng buổi học.");
+    }
+
     // Lấy tutorId từ username
     const tutor = await sequelize.query(
         `SELECT userid FROM Users WHERE username = :username`,
@@ -55,10 +66,10 @@ exports.bookTutor = async ({ username, starttime, endtime, target, payment, lear
         {
             replacements: {
                 tutorTeachLearnerId,
-                target: target || "Học tập cơ bản", 
+                target: target || "Học tập cơ bản",
                 timestart: starttime,
                 timeend: endtime,
-                payment: payment || 0 
+                payment: payment || 0
             },
             type: sequelize.QueryTypes.INSERT,
         }

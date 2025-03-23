@@ -2,7 +2,7 @@ const followService = require("../../services/learner/followTutorService");
 
 exports.followTutor = async (req, res) => {
     try {
-        const learnerId = req.session.user.userid || 24; // Lấy learnerId từ session 
+        const learnerId = req.session.user.userid || 25; // Lấy learnerId từ session 
         const { tutorId } = req.body;
 
         if (!learnerId) {
