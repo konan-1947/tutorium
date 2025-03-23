@@ -32,7 +32,7 @@ exports.forgotPassword = async (email) => {
     );
 
     // 5. Gửi email chứa mật khẩu mới và link đổi mật khẩu
-    const resetLink = `FRONTEND tự thêm đi nó là api reset passwword`;
+    const resetLink = `${process.env.FRONTEND_URL}/resetpassword`;
     
     const emailHtml = `
         <p>Chào <strong>${user.username}</strong>,</p>
