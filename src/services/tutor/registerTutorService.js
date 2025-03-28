@@ -35,9 +35,20 @@ exports.registerTutor = async (tutorData) => {
             }
         );
 
+        //Thêm vào bảng UserRoles 
+        const tutorRoleId = 2; 
+        await sequelize.query(
+            `INSERT INTO UsersRoles (userid, roleid)
+             VALUES (?, ?)`,
+            {
+                replacements: [userId, tutorRoleId],
+                type: QueryTypes.INSERT
+            }
+        );
+
         // 4. Lấy thông tin user (không lấy username và password)
         const [user] = await sequelize.query(
-            `SELECT displayname, email, imgurl, dateofbirth, address 
+            `SELECT userid , username ,displayname, email, imgurl, dateofbirth, address 
          FROM Users 
          WHERE userid = ?`,
             {
@@ -45,6 +56,7 @@ exports.registerTutor = async (tutorData) => {
                 type: QueryTypes.SELECT
             }
         );
+
 
         // 5. Lấy thông tin tutor vừa tạo
         const [tutor] = await sequelize.query(
@@ -55,18 +67,20 @@ exports.registerTutor = async (tutorData) => {
             }
         );
 
-        // 5. Gửi email cho admin để cấp quyền tutor 
-     
-    //     const tutorApprovalLink = `https://yourfrontend.com/approve-tutor/${userId}`;
 
-    //     await sendMail(
-    //         "vutuanhiep9099@gmail.com",
-    //         "New Tutor Registration Request",
-    //         `User ${displayname} (${email}) has registered as a tutor. Please review and approve their account.`,
-    //         `<p>Chào <b>Admin</b>,</p>
-    //  <p>Có một yêu cầu đăng ký tutor mới từ <b>${displayname}</b> (${email}).</p>
-    //  <p>Vui lòng nhấn vào <a href="${tutorApprovalLink}">đây</a> để xem xét và phê duyệt tài khoản của họ.</p>`
-    //     );
+
+        // 5. Gửi email cho admin để cấp quyền tutor 
+
+        //     const tutorApprovalLink = `https://yourfrontend.com/approve-tutor/${userId}`;
+
+        //     await sendMail(
+        //         "vutuanhiep9099@gmail.com",
+        //         "New Tutor Registration Request",
+        //         `User ${displayname} (${email}) has registered as a tutor. Please review and approve their account.`,
+        //         `<p>Chào <b>Admin</b>,</p>
+        //  <p>Có một yêu cầu đăng ký tutor mới từ <b>${displayname}</b> (${email}).</p>
+        //  <p>Vui lòng nhấn vào <a href="${tutorApprovalLink}">đây</a> để xem xét và phê duyệt tài khoản của họ.</p>`
+        //     );
 
         return { message: "Tutor registered successfully", user, tutor };
     } catch (error) {

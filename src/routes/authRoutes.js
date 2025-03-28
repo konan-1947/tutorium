@@ -9,6 +9,8 @@ const logoutController = require("../controllers/auth/logoutController");
 const forgotPasswordController = require('../controllers/auth/forgotPasswordController');
 const resetPasswordController = require('../controllers/auth/resetPasswordController');
 
+const checkSession = require('../controllers/auth/checkLoginSessionController');
+
 const passport = require("passport");
 require('dotenv').config();
 
@@ -18,6 +20,10 @@ router.post("/logout", logoutController);
 
 router.post('/forgotPassword', forgotPasswordController.forgotPassword);
 router.post('/resetPassword', resetPasswordController.resetPassword);
+
+
+router.get('/checkLoginSession', checkSession.checkAuth);
+
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
@@ -33,7 +39,7 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
     };
     console.log("hahahah", JSON.stringify(req.session.user));
 
-    res.redirect(`${process.env.FRONTEND_URL}/find`);
+    res.redirect(`${process.env.FRONTEND_URL}/verifylearner`);
   }
 );
 

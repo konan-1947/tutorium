@@ -4,8 +4,8 @@ const sequelize = require("../config/db");
 exports.findConflictingBookings = async (tutorId, timestart, timeend, excludeContractId) => {
     const query = `SELECT 
             c.contractid, 
-            CONVERT_TZ(c.timestart, '+00:00', '+07:00') AS timestart, 
-            CONVERT_TZ(c.timeend, '+00:00', '+07:00') AS timeend, 
+            c.timestart AS timestart, 
+            c.timeend AS timeend, 
             c.payment, 
             u.displayname AS learnerName 
         FROM Contracts AS c

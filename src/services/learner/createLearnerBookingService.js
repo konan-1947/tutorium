@@ -1,17 +1,36 @@
+const { QueryTypes } = require("sequelize");
 const sequelize = require("../../config/db");
 const { isBookingConflict } = require("../../utils/isBookingConflict");
 
 exports.bookTutor = async ({ username, starttime, endtime, target, payment, learnerId }) => {
+    // Kiểm tra số lượng hợp đồng active của learner
+    const contractResult = await sequelize.query(
+        `SELECT COUNT(*) as count 
+     FROM Contracts AS c 
+     JOIN TutorsTeachLearners AS ttl 
+     ON c.tutorteachlearnerid = ttl.tutorteachlearnerid
+     WHERE ttl.learnerid = :learnerId 
+     AND c.status = 'active'`,
+        {
+            replacements: { learnerId },
+            type: QueryTypes.SELECT
+        }
+    );
+
+    const contractCount = contractResult[0]; // Lấy phần tử đầu tiên
+    if (contractCount.count > 1) {
+        throw new Error("Learner có nhiều lịch học chưa hoàn thành (> 2), không thể đặt lịch học khác.");
+    }
 
     if (new Date(starttime) > new Date(endtime)) {
         throw new Error("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
     }
 
     // Kiểm tra thời lượng đặt lịch (phải >= 1 tiếng và <= 3 tiếng)
-    const duration = (new Date(endtime) - new Date(starttime)) / (1000 * 60 * 60); // chuyển mili giây thành giờ
-    if (duration < 1 || duration > 3) {  // Sửa điều kiện ở đây
-        throw new Error("Thời gian đặt lịch phải từ 1 tiếng đến 3 tiếng để đảm bảo chất lượng buổi học.");
-    }
+    // const duration = (new Date(endtime) - new Date(starttime)) / (1000 * 60 * 60); // chuyển mili giây thành giờ
+    // if (duration < 1 || duration > 3) {  // Sửa điều kiện ở đây
+    //     throw new Error("Thời gian đặt lịch phải từ 1 tiếng đến 3 tiếng để đảm bảo chất lượng buổi học.");
+    // }
 
     // Lấy tutorId từ username
     const tutor = await sequelize.query(

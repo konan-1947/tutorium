@@ -19,6 +19,6 @@ module.exports = async (req, res) => {
     };
     res.json({ message: "Đăng nhập thành công", user: req.session.user });
   } catch (error) {
-    res.status(500).json({ error: "Lỗi máy chủ" });
+    return res.status(400).json({ success: false, message: error.message });
   }
 };

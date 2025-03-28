@@ -5,6 +5,6 @@ exports.getCategoryList = async (req, res) => {
         res.status(200).json({ success: true, data: categories });
     } catch (error) {
         console.error('Error fetching categories list:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        res.status(400).json({ success: false, message: 'Internal Server Error' });
     }
 };

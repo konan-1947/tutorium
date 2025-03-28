@@ -2,8 +2,8 @@ const resetPasswordService = require('../../services/auth/resetPasswordService')
 
 exports.resetPassword = async (req, res) => {
     try {
-        const { oldPassword, email, newPassword, confirmPassword } = req.body;
-
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+        const email = req.session.user.email;
         // Kiểm tra xem có nhập thiếu không
         if (!oldPassword || !email || !newPassword || !confirmPassword) {
             return res.status(400).json({ error: "Email, mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu là bắt buộc." });

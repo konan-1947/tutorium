@@ -12,6 +12,28 @@ exports.createWorkingTime = async ({ userId, newStartTime, newEndTime }) => {
     if (finalStartTime >= finalEndTime) throw new Error("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
 
     try {
+
+
+        // Kiểm tra số lượng hợp đồng chưa hoàn thành (loại trừ pending và cancelled)
+        const contractResult = await sequelize.query(
+            `SELECT COUNT(*) as count 
+             FROM Contracts C
+             JOIN TutorsTeachLearners TTL ON C.tutorteachlearnerid = TTL.tutorteachlearnerid
+             WHERE TTL.tutorid = :userId 
+             AND C.status NOT IN ('done', 'pending', 'cancelled')`,
+            {
+                replacements: { userId },
+                type: sequelize.QueryTypes.SELECT
+            }
+        );
+
+        const contractCount = contractResult[0]; // Lấy phần tử đầu tiên
+        if (contractCount.count > 1) {
+
+            return {"error": "Tutor có quá nhiều hợp đồng đang thực hiện (> 2), không thể thêm lịch rảnh."};
+        }
+
+
         // Gọi hàm merge từ utils
         const { finalStartTime, finalEndTime, merged } = await mergeWorkingTimes({ userId, newStartTime, newEndTime });
 
@@ -32,6 +54,6 @@ exports.createWorkingTime = async ({ userId, newStartTime, newEndTime }) => {
         return merged ? "merged" : "nomerged";
     } catch (error) {
         console.error("Error adding working time:", error);
-        return "error";
+        return error;
     }
 };

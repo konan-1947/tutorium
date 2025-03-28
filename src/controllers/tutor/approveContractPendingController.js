@@ -4,8 +4,8 @@ const approvePendingService = require("../../services/tutor/approveContractPendi
 exports.approvePendingBooking = async (req, res) => {
     try {
         const { contractId } = req.params;
-        const tutorId = req.session.user.userid || 24; 
-
+        const tutorId =  24; 
+        // req.session.user.userid ||
         if (!contractId) {
             return res.status(400).json({ success: false, message: "Invalid contract ID" });
         }

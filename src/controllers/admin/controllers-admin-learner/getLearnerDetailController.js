@@ -9,6 +9,6 @@ exports.getLearnerDetail = async (req, res) => {
         }
         res.status(200).json({ success: true, data: learner });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(400).json({ success: false, message: error.message });
     }
 };

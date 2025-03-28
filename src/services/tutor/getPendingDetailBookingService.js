@@ -6,8 +6,8 @@ exports.getPendingBookingDetails = async (contractId, tutorId) => {
     const detailQuery = `
         SELECT 
             c.contractid, 
-            CONVERT_TZ(c.timestart, '+00:00', '+07:00') AS timestart, 
-            CONVERT_TZ(c.timeend, '+00:00', '+07:00') AS timeend, 
+            c.timestart, 
+            c.timeend, 
             c.payment, 
             u.displayname AS learnerName,
             ttl.tutorid
@@ -29,16 +29,25 @@ exports.getPendingBookingDetails = async (contractId, tutorId) => {
         throw new Error("Unauthorized: Tutor ID does not match contract");
     }
 
-    // Chuyển thời gian sang định dạng ISO 8601 (UTC+7)
-    contract.timestart = new Date(contract.timestart).toISOString();
-    contract.timeend = new Date(contract.timeend).toISOString();
+    // Chuyển thời gian sang định dạng ISO 8601 (giữ nguyên UTC)
+    // contract.timestart = new Date(contract.timestart).toISOString();
+    // contract.timeend = new Date(contract.timeend).toISOString();
+
+    const timestart = contract.timestart;
+    const timeend = contract.timeend;
 
     const conflictingBookings = await bookingUtils.findConflictingBookings(
         tutorId,
-        contract.timestart ,
-        contract.timeend ,
+        // contract.timestart,
+        // contract.timeend,
+        timestart,
+        timeend,
         contractId
     );
+
+    // Chỉ chuyển sang ISO khi trả về kết quả
+    contract.timestart = new Date(contract.timestart).toISOString();
+    contract.timeend = new Date(contract.timeend).toISOString();
 
     return {
         contractDetail: contract,

@@ -2,7 +2,8 @@ const getFollowedTutorsService = require('../../services/learner/getListTutorFol
 
 exports.getFollowedTutors = async (req, res) => {
     try {
-        const learnerId = req.session.user.userid || 25 ;
+        const learnerId = req.session.user.userid ;
+            // || 25
 
         // // Validate learnerId
         // if (!learnerId || isNaN(learnerId)) {

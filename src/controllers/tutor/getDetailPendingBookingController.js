@@ -5,7 +5,7 @@ const getPendingDetails = require("../../services/tutor/getPendingDetailBookingS
 exports.getPendingBookingDetails = async (req, res) => {
     try {
         const { contractId } = req.params;
-        const tutorId = req.session.user.userid || 24;
+        const tutorId =  24;
         if (!contractId) {
             return res.status(400).json({ success: false, message: "Invalid contractId" });
         }

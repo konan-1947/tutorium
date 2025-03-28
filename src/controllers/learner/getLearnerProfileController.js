@@ -8,6 +8,6 @@ exports.getLearnerDetail = async (req, res) => {
         res.status(200).json(result);
     } catch (error) {
         console.error("Lỗi trong API handler:", error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(400).json({ success: false, message: error.message });
     }
 };
