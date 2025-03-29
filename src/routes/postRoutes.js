@@ -35,7 +35,6 @@ router.delete('/delete/:postid', postController.deletePost);
 
 router.post('/toggleUpvote', postController.toggleUpvote);
 router.get('/getUpvoteCount/:postid', postController.getUpvoteCount);
-router.get('/profile/:userid', userController.getUserProfile);
 
 
 module.exports = router;
