@@ -2,10 +2,8 @@ const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/post/postController');
 const { upload } = require('../middlewares/uploadMiddleware');
-const profileController = require('../controllers/user/profileController');
 //const { deleteImage } = require('../controllers/postController');
 const PostImage = require('../models/PostImage');
-const { getProfile } = require('../controllers/user/profileController');
 const multer = require("multer");
 
 
@@ -14,6 +12,8 @@ const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
 // Lấy tất cả bài viết
 router.get('/', postController.getAllPosts);
+
+router.get('/myposts', postController.getMyPosts);
 
 // Đăng bài viết
 router.post("/create", upload.array("images",5), postController.createPost);
@@ -24,8 +24,18 @@ router.delete('/delete-image/:imageid',  postController.deleteImage);
 router.get('/getUser/:userid',postController.getUserProfile);
 
 //Lấy tên người dùng qua session
-router.get('/getUser',profileController.getProfile);
 // lấy post theo id
 router.get("/:postid", postController.getPostById);
+
+// Tạo Google Docs mới
+router.post("/create-google-doc", postController.createGoogleDoc);
+
+
+router.delete('/delete/:postid', postController.deletePost);
+
+router.post('/toggleUpvote', postController.toggleUpvote);
+router.get('/getUpvoteCount/:postid', postController.getUpvoteCount);
+router.get('/profile/:userid', userController.getUserProfile);
+
 
 module.exports = router;
