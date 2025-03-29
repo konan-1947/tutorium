@@ -425,25 +425,3 @@ const getUpvoteCount = async (req, res) => {
 
 module.exports.getUpvoteCount = getUpvoteCount;
 
-const getUserProfile = async (req, res) => {
-    try {
-        const { userid } = req.params;
-        const user = await UserModel.findOne({ where: { userid } });
-
-        if (!user) {
-            return res.status(404).json({ message: 'Người dùng không tồn tại' });
-        }
-
-        const posts = await PostModel.findAll({ where: { userid } });
-
-        res.render('profile', { 
-            user, 
-            posts 
-        }); // Render ra trang profile.handlebars
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Lỗi server' });
-    }
-};
-
-module.exports = { getUserProfile };
