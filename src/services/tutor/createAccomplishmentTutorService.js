@@ -12,8 +12,11 @@ exports.createAccomplishment = async (accomplishmentData) => {
         expiration_date
     } = accomplishmentData;
 
+    console.log("Received accomplishment data:", accomplishmentData);
+
     try {
         // Kiểm tra xem tutorid có tồn tại trong bảng Tutors không
+        console.log("Checking if tutor exists with tutorid:", tutorid);
         const tutorCheckQuery = `
             SELECT COUNT(*) as count 
             FROM Tutors 
@@ -24,28 +27,36 @@ exports.createAccomplishment = async (accomplishmentData) => {
             type: QueryTypes.SELECT
         });
 
+        console.log("Tutor check result:", tutorExists);
+
         if (tutorExists[0].count === 0) {
+            console.error("Tutor not found");
             throw new Error('Tutor not found');
         }
 
-        // Kiểm tra xem tutorid có tồn tại trong bảng Tutors không
+        // Kiểm tra xem verifylink có bị trùng không
+        console.log("Checking if verifylink already exists for tutorid:", tutorid);
         const verifylinkCheckQuery = `
-         SELECT COUNT(*) as count 
-         FROM Accomplishments 
-         WHERE userid = :tutorid
-         AND verifylink = :verifylink
-     `;
+            SELECT COUNT(*) as count 
+            FROM Accomplishments 
+            WHERE userid = :tutorid
+            AND verifylink = :verifylink
+        `;
      
         const verifylinkExists = await sequelize.query(verifylinkCheckQuery, {
             replacements: { tutorid, verifylink },
             type: QueryTypes.SELECT
         });
 
+        console.log("Verify link check result:", verifylinkExists);
+
         if (verifylinkExists[0].count > 0) {
+            console.error("This verification link is already used for another accomplishment");
             throw new Error('This verification link is already used for another accomplishment');
         }
 
         // Query để thêm accomplishment với status mặc định là 'pending'
+        console.log("Inserting new accomplishment into Accomplishments table...");
         const insertQuery = `
             INSERT INTO Accomplishments (
                 description, 
@@ -69,7 +80,6 @@ exports.createAccomplishment = async (accomplishmentData) => {
             );
         `;
 
-        // Thực hiện insert
         await sequelize.query(insertQuery, {
             replacements: {
                 description,
@@ -83,7 +93,10 @@ exports.createAccomplishment = async (accomplishmentData) => {
             type: QueryTypes.INSERT
         });
 
+        console.log("Accomplishment inserted successfully");
+
         // Lấy accomplishment vừa tạo để trả về
+        console.log("Fetching newly created accomplishment...");
         const selectQuery = `
             SELECT * 
             FROM Accomplishments 
@@ -97,8 +110,11 @@ exports.createAccomplishment = async (accomplishmentData) => {
             type: QueryTypes.SELECT
         });
 
+        console.log("New accomplishment fetched:", newAccomplishment);
+
         return newAccomplishment[0];
     } catch (error) {
+        console.error(`Error creating accomplishment: ${error.message}`);
         throw new Error(`Error creating accomplishment: ${error.message}`);
     }
 };
