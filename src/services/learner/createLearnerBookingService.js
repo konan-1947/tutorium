@@ -3,6 +3,7 @@ const sequelize = require("../../config/db");
 const { isBookingConflict } = require("../../utils/isBookingConflict");
 
 exports.bookTutor = async ({ username, starttime, endtime, target, payment, learnerId }) => {
+    console.log("aaaaaa",username);
     // Kiểm tra số lượng hợp đồng active của learner
     const contractResult = await sequelize.query(
         `SELECT COUNT(*) as count 
@@ -37,7 +38,7 @@ exports.bookTutor = async ({ username, starttime, endtime, target, payment, lear
         `SELECT userid FROM Users WHERE username = :username`,
         { replacements: { username }, type: sequelize.QueryTypes.SELECT }
     );
-
+    console.log('tutoraaaaaaaaaaaaaaaa', tutor);
     if (!tutor.length) {
         throw new Error("Không tìm thấy gia sư");
     }
@@ -50,7 +51,7 @@ exports.bookTutor = async ({ username, starttime, endtime, target, payment, lear
     if (conflict) {
         throw new Error("Gia sư không rảnh vào thời gian này.");
     }
-
+console.log("hahaha",conflict );
     // Lấy hoặc tạo tutorteachlearnerid từ bảng TutorsTeachLearners
     let tutorTeachLearner = await sequelize.query(
         `SELECT tutorteachlearnerid FROM TutorsTeachLearners 
