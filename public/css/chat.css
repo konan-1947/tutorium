@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f0f2f5; /* Xám nhạt ấm */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 30%;
+    background: #ffffff; /* Trắng sạch sẽ */
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid #e0e0e0; /* Viền nhẹ nhàng */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03); /* Bóng mờ nhẹ */
+}
+
+.sidebar h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333333; /* Xám đậm dễ đọc */
+}
+
+/* Chat Container */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #007bff, #00b4d8); /* Gradient xanh dương sang cyan */
+    color: #ffffff; /* Trắng tương phản */
+    padding: 15px;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-bottom: 1px solid #0056b3; /* Viền đậm hơn */
+}
+
+#messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f7f9fb; /* Xám nhạt sáng */
+    color: #333333; /* Chữ đậm dễ đọc */
+}
+
+#messages p {
+    text-align: center;
+    color: #666666; /* Xám trung nhẹ nhàng */
+}
+
+/* Message Input */
+#message-input {
+    display: flex;
+    padding: 10px;
+    background: #ffffff;
+    border-top: 1px solid #e0e0e0; /* Viền nhẹ */
+    align-items: center;
+}
+
+#message-input input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #d1d5db; /* Xám nhạt */
+    border-radius: 4px;
+    margin-right: 8px;
+    transition: border-color 0.3s;
+    font-size: 0.85rem;
+}
+
+#message-input input:focus {
+    border-color: #007bff; /* Xanh dương chủ đạo */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Bóng mềm */
+}
+
+#message-input button {
+    padding: 6px 12px;
+    background: #007bff; /* Xanh dương chủ đạo */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.85rem;
+}
+
+#message-input button:hover {
+    background: #0056b3; /* Đậm hơn khi hover */
+}
+
+/* Conversation */
+.conversation {
+    padding: 10px;
+    border-bottom: 1px solid #e8ecef; /* Viền nhẹ */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+}
+
+.conversation:hover {
+    background: #f0f4f8; /* Xám xanh nhạt */
+}
+
+/* Notification */
+.notification-container {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    z-index: 1000;
+}
+
+.notification-icon {
+    position: relative;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333333; /* Đậm hơn */
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff5252; /* Đỏ nhạt nổi bật */
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e0e0e0; /* Viền nhẹ */
+    width: 220px;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Bóng rõ hơn */
+    border-radius: 4px;
+}
+
+.notification-item {
+    padding: 8px;
+    border-bottom: 1px solid #e8ecef; /* Viền nhẹ */
+    font-size: 0.8rem;
+    color: #333333; /* Đậm dễ đọc */
+}
+
+.notification-item:hover {
+    background: #f5f7fa; /* Xám xanh nhạt */
+}
+
+/* Message */
+.message {
+    margin: 6px 0;
+    padding: 6px;
+    border-radius: 4px;
+    max-width: 30%;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+.sent {
+    background-color: #40c4ff; /* Xanh dương nhạt sáng */
+    color: #ffffff; /* Trắng tương phản */
+    margin-left: auto;
+    align-items: flex-end; /* Căn phải */
+}
+
+.received {
+    background-color: #e0e0e0; /* Xám nhạt trung tính */
+    color: #333333; /* Đậm dễ đọc */
+    border: 1px solid #d1d5db; /* Viền nhẹ */
+    align-items: flex-start; /* Căn trái */
+}
+
+.message p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.message span {
+    font-size: 0.65em;
+    color: #888888; /* Xám nhẹ */
+    display: block;
+    text-align: right;
+}
