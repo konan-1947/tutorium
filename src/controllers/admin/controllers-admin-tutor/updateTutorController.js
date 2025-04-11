@@ -8,12 +8,12 @@ exports.updateTutor = async (req, res) => {
         const updatedTutor = await tutorService.updateTutor(userid, updateData);
 
         res.status(200).json({
-            success: true,
             message: 'Tutor updated successfully',
             data: updatedTutor,
         });
+        
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             success: false,
             message: error.message,
         });

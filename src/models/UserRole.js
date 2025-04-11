@@ -7,6 +7,7 @@ UserRole.init({
     userroleid: {
         type: DataTypes.BIGINT,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true
     },
     userid: {

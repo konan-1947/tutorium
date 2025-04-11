@@ -5,7 +5,7 @@ exports.getLearner = async (req, res) => {
         const learners = await learnerService.getLearner();
         res.status(200).json({ success: true, data: learners });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(400).json({ success: false, message: error.message });
     }
 };
 

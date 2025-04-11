@@ -5,11 +5,12 @@ const User = require("../../../models/User");
 exports.updateLearner = async (userid, updateData) => {
     try {
         //Chứa các thông tin cần cập nhật
-        const { username, displayname, email, dateofbirth, imgurl ,address, learninggoal } = updateData;
+        const { displayname, dateofbirth, imgurl, address, learninggoal } = updateData;
+
 
         // Cập nhật bảng Users
         await User.update(
-            { username, displayname, email, dateofbirth, address, imgurl },
+            {  displayname, dateofbirth, address, imgurl },
             { where: { userid } }
         );
 
@@ -22,8 +23,8 @@ exports.updateLearner = async (userid, updateData) => {
         // Lấy thông tin mới cập nhật
         const updatedLearner = await Learner.findOne({
             where: { userid },
-            include: [{ model: User, attributes: ['username', 'displayname', 'email', 'dateofbirth', 'address' , 'imgurl'] }]
-            
+            include: [{ model: User, attributes: ['displayname','dateofbirth', 'address', 'imgurl'] }]
+
         });
 
         return { success: true, data: updatedLearner };
