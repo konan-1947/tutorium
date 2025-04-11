@@ -10,12 +10,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Cấu hình email
-const mailOptions = {
-  from: 'rinnekonan.1947@gmail.com',
-  to: 'nhacute7b@gmail.com', // Email người nhận
-  subject: 'Test Email',
-  text: 'Đây là một email thử nghiệm gửi từ Node.js!'
-};
+// const mailOptions = {
+//   from: 'rinnekonan.1947@gmail.com',
+//   to: 'nhacute7b@gmail.com', // Email người nhận
+//   subject: 'Test Email',
+//   text: 'Đây là một email thử nghiệm gửi từ Node.js!'
+// };
 
 // Gửi email
 transporter.sendMail(mailOptions, (error, info) => {
