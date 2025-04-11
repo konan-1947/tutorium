@@ -5,7 +5,7 @@ const { hashPassword } = require('../../../utils/hash');
 exports.createAdmin = async (req, res) => {
     try {
         const { username, displayname, password, email, imgurl, dateofbirth, address } = req.body;
-
+        console.log(req.body);
         // Validate required fields
         if (!username || !displayname || !password || !email || !imgurl || !dateofbirth) {
             return res.status(400).json({
