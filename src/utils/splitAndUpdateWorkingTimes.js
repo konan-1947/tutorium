@@ -58,8 +58,8 @@ exports.splitAndUpdateWorkingTimes = async ({ tutorId, contractStartTime, contra
         // Chèn các slot mới
         for (const slot of newSlots) {
             await sequelize.query(
-                `INSERT INTO WorkingTimes (userid, starttime, endtime, note)
-                 VALUES (:tutorId, :starttime, :endtime, 'Split due to approved contract')`,
+                `INSERT INTO WorkingTimes (userid, starttime, endtime)
+                 VALUES (:tutorId, :starttime, :endtime)`,
                 {
                     replacements: {
                         tutorId,

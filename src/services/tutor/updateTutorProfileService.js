@@ -14,7 +14,7 @@ exports.updateTutor = async ({ username, displayname, imgurl, dateofbirth, addre
                 type: QueryTypes.SELECT
             }
         );
-
+        console.log("check1: ",existingTutor);
         if (existingTutor.length === 0) {
             return null; // Tutor không tồn tại
         }

@@ -1,4 +1,3 @@
-//chứa các toán tử (operators) của Sequelize để dùng Like, BETWEEN ,....
 const { Op } = require("sequelize");
 const User = require("../../models/User");
 const Tutor = require("../../models/Tutor");
@@ -9,48 +8,60 @@ const { getCoordinatesFromAddress } = require('./getCoordinatesFromAddress');
 
 module.exports = async (query) => {
     const { displayname, category, socialcreditsortasc, expectedsalary, address, userAddress } = query;
+
+    console.log("Query received:", query);
+
     try {
-
         let whereCondition = {};
-        let orderCondition = []; //Mảng chứa các điều kiện sắp xếp dữ liệu (ORDER BY clause).
+        let orderCondition = [];
 
-        //search theo displayname
+        // Filter by displayname
         if (displayname) {
             whereCondition["$User.displayname$"] = { [Op.like]: `%${displayname}%` };
+            console.log("Filter by displayname:", whereCondition["$User.displayname$"]);
         }
 
-        // Lọc theo khoảng lương mong muốn
+        // Filter by expected salary range
         if (expectedsalary) {
-            const salaryRange = expectedsalary.split("-").map(Number); // tách chuỗi thành mảng dựa theo(-) và chuyển lại dạng số
+            const salaryRange = expectedsalary.split("-").map(Number);
+            console.log("Expected salary range:", salaryRange);
             if (salaryRange.length === 2) {
                 whereCondition["expectedsalary"] = { [Op.between]: salaryRange };
             }
         }
 
-        // Search theo địa chỉ (LIKE)
+        // Filter by address
         if (address) {
             whereCondition["$User.address$"] = { [Op.like]: `%${address}%` };
+            console.log("Filter by address:", whereCondition["$User.address$"]);
         }
 
-        // Sắp xếp theo socialcredit
+        // Sort by social credit
         if (socialcreditsortasc) {
-            orderCondition.push(["socialcredit", socialcreditsortasc === "true" ? "ASC" : "DESC"]);
+            const direction = socialcreditsortasc === "true" ? "ASC" : "DESC";
+            orderCondition.push(["socialcredit", direction]);
+            console.log("Sort by social credit:", direction);
         }
 
+        // Query tutors
+        console.log("Executing Sequelize query with conditions:", {
+            whereCondition,
+            orderCondition,
+            category
+        });
 
-        // Truy vấn Tutor với điều kiện
         const tutors = await Tutor.findAll({
             attributes: { exclude: ['verifytoken', 'verified_at', 'tokenexpiry'] },
             include: [
                 {
                     model: User,
-                    attributes: ["username", "address","displayname"], // Lấy cả address
-                    required: true, //Chỉ lấy các bản ghi có liên kết với bảng User
+                    attributes: ["username", "address", "displayname"],
+                    required: true,
                 },
                 {
                     model: Category,
                     attributes: ["categoryname"],
-                    through: { attributes: [] }, // Bỏ bảng trung gian
+                    through: { attributes: [] },
                     where: category ? { categoryname: { [Op.like]: `%${category}%` } } : undefined,
                 },
             ],
@@ -58,56 +69,54 @@ module.exports = async (query) => {
             order: orderCondition,
         });
 
+        console.log(`Found ${tutors.length} tutor(s)`);
 
+        // If user address is provided, calculate distances
         if (userAddress) {
-            // Lấy tọa độ (vĩ độ, kinh độ) của địa chỉ user = cách gọi hàm getCoordinatesFromAddress
+            console.log("User address provided:", userAddress);
             const userCoords = await getCoordinatesFromAddress(userAddress);
+            console.log("User coordinates:", userCoords);
+
             if (!userCoords) {
-                throw new Error("Không thể lấy tọa độ người dùng.");
+                throw new Error("Unable to get coordinates for the user address.");
             }
 
-            // Lấy tất cả tọa độ của Tutors trước khi tính khoảng cách
             const tutorsWithDistance = await Promise.all(
-                // duyệt từng Tutor trong danh sách tutors
                 tutors.map(async (tutor) => {
-                    if (!tutor.User.address) return null;
+                    if (!tutor.User.address) {
+                        console.warn("Tutor has no address:", tutor.User.username);
+                        return null;
+                    }
 
                     const tutorCoords = await getCoordinatesFromAddress(tutor.User.address);
-                    if (!tutorCoords) return null;
+                    if (!tutorCoords) {
+                        console.warn(`Could not get coordinates for tutor: ${tutor.User.displayname}`);
+                        return null;
+                    }
 
                     const distance = haversine(
                         userCoords.latitude, userCoords.longitude,
                         tutorCoords.latitude, tutorCoords.longitude
                     );
 
-                    ////Trả về một đối tượng mới bao gồm thông tin của Tutor và khoảng cách (distance).
+                    console.log(`Distance from ${userAddress} to ${tutor.User.address}: ${distance.toFixed(2)} km`);
+
                     return { ...tutor.get({ plain: true }), distance };
                 })
             );
 
-            // Sắp xếp theo khoảng cách
-            return tutorsWithDistance
-                //Loại bỏ các Tutor có giá trị null
+            const filteredSortedTutors = tutorsWithDistance
                 .filter(tutor => tutor !== null)
-                .sort((a, b) => a.distance - b.distance); //Sắp xếp các Tutor theo khoảng cách tăng dần 
+                .sort((a, b) => a.distance - b.distance);
+
+            console.log("Returning sorted tutors by distance");
+            return filteredSortedTutors;
         }
 
         return tutors;
 
     } catch (error) {
-        console.error("Lỗi trong quá trình truy vấn dữ liệu:", error);
+        console.error("Error during tutor query process:", error);
     }
-
 };
 
-// async function testLocation() {
-//     const address = "Thành Phố Hồ Chí Minh";
-//     try {
-//         const coords = await getCoordinatesFromAddress(address);
-//         console.log("Tọa độ của người dùng:", coords);
-//     } catch (error) {
-//         console.error("Lỗi khi lấy tọa độ:", error.message);
-//     }
-// }
-
-// testLocation();
