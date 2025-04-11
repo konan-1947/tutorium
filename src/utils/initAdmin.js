@@ -12,7 +12,7 @@ const { hashPassword } = require('../utils/hash');
 const initAdmin = async () => {
     const adminData = {
         username: 'admin',
-        displayname: 'Administrator',
+        displayname: 'Liên hệ với Admin',
         password: 'admin',
         email: 'admin@example.com',
         dateofbirth: '1990-01-01',
