@@ -44,7 +44,6 @@ require('./config/passport');
 app.use('/auth', authRoutes);
 app.use('/tutor', tutorRoutes);
 app.use('/learner', learnerRoutes);
-//đã sửa
 app.use('/admin', adminRoutes);
 app.use('/util', utilRoutes)
 
